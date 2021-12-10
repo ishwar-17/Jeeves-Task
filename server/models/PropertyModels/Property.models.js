@@ -5,7 +5,7 @@ module.exports = mongoose => {
         {
             propertyName:String,
             description: String,
-            images: [{ data: Buffer, contentType: String}],
+            images: [],
             address: String,
             locality: String,
             price:[],
