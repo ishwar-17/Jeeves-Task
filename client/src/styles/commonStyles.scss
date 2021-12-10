@@ -1,0 +1,97 @@
+@import './variables.scss';
+@import './Responsiveness/screenDevices.scss';
+
+body {
+    background-color: $body-bgcolor;
+    color: $body-color;
+}
+
+.screen-container{
+    @include screen-container;
+}
+
+@mixin fs($size){
+    font-size:($size) + rem;
+}
+.fs-16{
+   @include fs(1);
+}
+.fs-18{
+    @include fs(1.125);
+}
+.fs-28{
+    @include fs(1.75);
+}
+
+@mixin rounded($size){
+    border-radius:($size) + rem;
+}
+.rounded-20{
+   @include rounded(1.25);
+}
+
+.bg-light-grey{
+    background-color: $bg-light-grey;
+    &:focus{
+        background-color: $bg-light-grey;
+        box-shadow: none !important;  
+    }
+}
+.text-light-dark{
+    color: $text-light-black;
+}
+.text-green{
+    color:$text-green;
+}
+
+@mixin genericButton($bgColor, $color) {
+    background-color: $bgColor;
+    color:$color
+}
+
+@mixin commonButton($padding) {
+    padding: $padding;
+}
+.btn-create{
+    @include genericButton(#bf80ff, #fff);
+    @include commonButton(15px 20px);
+    transition: all 0.5s ease-in-out;
+
+    &:hover{
+        @include genericButton(#9933ff, #fff);
+        box-shadow: 0 0 1px 2px #eee, 0 0 16px 5px #f1f1f1;
+    }
+}
+.text-red-color{
+    color: $text-red;
+}
+.ranger-slider-block{
+    border:1px solid #fff;
+    box-shadow: 0 0 1px 2px #fff, 0 0 16px 5px #f1f1f1;
+    border-radius: 6px;
+    padding:12px 20px;
+    background-color: #fff;
+    transition: all 0.5s ease-in-out;
+
+    .rs-slider{
+        .rs-slider-handle{
+            &::before{
+                height:18px;
+                width:18px;
+            }
+        }
+        .rs-slider-bar{
+            height:10px;
+            border-radius: 6px;
+
+            .rs-slider-progress-bar{
+                height:10px;
+            }
+        }
+    }
+}
+.price-range{
+    font-size: 14px;
+    font-weight: 600;
+    color: #676a6c;
+}

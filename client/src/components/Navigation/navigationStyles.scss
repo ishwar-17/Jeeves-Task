@@ -1,0 +1,105 @@
+@import './navigationVariables.scss';
+
+@mixin greenLine {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    margin:auto;
+    border-radius: 2px;
+    transition: width .3s ease, background-color .3s ease;
+}
+
+.upperNavigation{
+    background-color: $navbarBgcolor;
+    box-shadow: $navbarBoxShadow;
+
+    .screen-container{
+        .navbar-section{
+            padding:0;
+            margin-bottom:2px;
+            .navbar-form{
+                & > input[type="text"]{
+                    background: $navbarSearchBgColor;
+                    border-radius: $navbarSearchRadius;
+                    border-color:$navbarSearchBorderColor; 
+                    text-align:center;       
+                }
+            }
+            .upper-navbar-link{
+                .navabr-item{
+                    position: relative;
+                    transition: all 0.5s ease-in-out;
+                    &::after{
+                        @include greenLine;
+                        width: 0px;
+                        background-color:transparent;
+                    }
+                    &:hover::after{
+                        width: 100%;
+                        background-color:$navbarNavLinkActiveColor;
+                    }
+                    &:hover > a > svg{
+                        color:$navbarNavLinkActiveColor;
+                    }
+                    & > a{
+                        transition: all 0.5s ease-in-out;
+                        > svg{
+                            width:$navbarLinkIconSize;
+                            height:$navbarLinkIconSize;
+                        }
+                        &:hover > svg{
+                            color:$navbarNavLinkActiveColor;
+                        }
+                    }
+                    & > .navbar-link{
+                        line-height: $navbarNavLinkLineHeight;
+                        color: $navbarNavLinkColor;
+                        &.active{
+                            &:hover > svg, svg{
+                                color:$navbarNavLinkActiveColor;
+                            }
+                            &::after{
+                                @include greenLine;
+                                width: 100%;
+                                background-color: $navbarNavLinkActiveColor;
+                            }
+                            &:hover::after{
+                                @include greenLine;
+                                width: 100%;
+                                background-color: $navbarNavLinkActiveColor;
+                            }
+                        }
+
+                        &.mr-lg-14{
+                            margin-right:$navbarIconSpace;
+                        }
+                        &.ml-lg-14{
+                            margin-left:$navbarIconSpace;
+                        }
+                    }
+                    
+                }
+                .navbar-dropdown-item{
+                    & > a{
+                        line-height: $navbarNavLinkUserLineHeight;
+                    }
+                    .dropdown-menu {
+                        left: -97px;
+                        box-shadow: $navbarBoxShadow;
+                        border: 0;
+                        & > a{
+                            font-size:14px;
+                            color: $navbarNavLinkColor;
+                            & > svg{
+                                font-size: 18px;
+                                color: $navbarNavLinkColor;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
