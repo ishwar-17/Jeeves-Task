@@ -46,7 +46,6 @@ const CreateWapperContainer = (props) => {
 	const unit_ref = useRef(null);
 
 	const onChangeHandler = (key, value, errorKey) => {
-		console.log(value);
 		if(!value){
 			SetErrorMessage(prevState => ({ ...prevState, [errorKey] : true}));
 		}else{
@@ -106,7 +105,6 @@ const CreateWapperContainer = (props) => {
     return(
         <div className="screen-container">
 			<div className="row">
-				<div className="col-md-3"></div>
 				<div className="col-md-6 create-property-container">
 					<h5>Create Property</h5>
 					<Input
@@ -186,7 +184,7 @@ const CreateWapperContainer = (props) => {
 								ref={carpet_area_ref}
 								isError={errorCarpetArea}
 								errorKey="errorCarpetArea"
-								errorMessage="Please enter a carpet area"
+								errorMessage="Please enter a carpet area and select unit"
 								onChangeHandler={onChangeHandler}
 							/>
 						</div>
@@ -198,6 +196,7 @@ const CreateWapperContainer = (props) => {
 								ref={unit_ref}
 								options={[{text: 'Select unit', value: ''},{text: 'Square feet', value: 'ft'}, {text: 'Square yard',  value: 'yd'}]}
 								inputKey={carpetArea}
+								isError={errorCarpetArea}
 								onChangeHandler={calculateCarpetArea}
 							/>
 						</div>
@@ -212,7 +211,6 @@ const CreateWapperContainer = (props) => {
 					/>
 					<button className="btn btn-create btn-block" onClick={() => createPropertyHandler()}>Create</button>
 				</div>
-				<div className="col-md-3"></div>
 			</div>
         </div>
     )

@@ -29,7 +29,7 @@ export const Label = styled.label`
     color: #444;
 `;
 
-const SelectComponent = ({label, value, customClass, selectClass, options, inputKey, onChangeHandler}, ref) => {
+const SelectComponent = ({label, value, customClass, selectClass, isError, options, inputKey, onChangeHandler}, ref) => {
     return (
         <div className={`form-group ${customClass && customClass}`}>
             {   label &&
@@ -38,7 +38,7 @@ const SelectComponent = ({label, value, customClass, selectClass, options, input
             <SelectContainer
                 defaultValue={value}
                 ref={ref}
-                className={`form-control ${selectClass && selectClass}`}
+                className={`form-control ${selectClass && selectClass} ${isError && isError && 'border-red-color'}`}
                 onChange={() => onChangeHandler(inputKey, ref.current.value)}
             >
                 {   options.length > 0 &&

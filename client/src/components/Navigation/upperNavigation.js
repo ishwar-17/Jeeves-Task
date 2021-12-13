@@ -6,9 +6,7 @@ import {UserImageXs} from '../Common/constant';
 import userPathImage from '../../assets/images/userProfileImage.svg';
 // Import Icons.
 import { BiLogOut } from "react-icons/bi";
-import { AiFillHome, AiOutlinePlusCircle } from "react-icons/ai";
-import { FiSend } from "react-icons/fi";
-import { FaRegBell } from "react-icons/fa";
+import { AiFillHome } from "react-icons/ai";
 // Importing Navigation CSS.
 import './navigationStyles.scss';
 class UpperNavigation extends Component{

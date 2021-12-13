@@ -56,8 +56,8 @@ exports.findAll = (req, res) => {
         return;
     }
     const pageOptions = {
-        page: parseInt(req.query.page, 10) || 1,
-        limit: parseInt(req.query.limit, 10) || 5
+        page: parseInt(req.query.page, 10) || 0,
+        limit: parseInt(req.query.limit, 10) || 10
     }
     let condition = '';
     if(locality){
@@ -70,10 +70,12 @@ exports.findAll = (req, res) => {
         }} : {};
     }
     Property.find(condition)
-        .skip(pageOptions.page * pageOptions.limit)
         .limit(pageOptions.limit)
         .then(data => {
-            res.send(data);
+            res.send({
+                property:data,
+                totalCount: data.length
+            });
         })
         .catch(err => {
             res.status(500).send({

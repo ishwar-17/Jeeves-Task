@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Select from '../../components/Common/Forms/Select';
 import { filterLocalityObject } from './constants';
 import ListItemCard from '../../components/Common/ListItemCard/ListItemCard';
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from 'react-infinite-scroller';
 import moment from 'moment';
 import './dashboardWrapperContainerStyles.scss';
 import DatePickerComponent from '../../components/Common/Forms/DatePickerComponent';
@@ -17,7 +17,7 @@ const DasboardWapperContainer = (props) => {
 
 	const getProperty = async () => {
 		let response = await getAllProperty();
-		setProperty(response);
+		setProperty(response.property);
 	}
 	const filter_locality_ref = useRef(null);
 	const selected_date_ref = useRef(null);
@@ -28,7 +28,7 @@ const DasboardWapperContainer = (props) => {
 			locality: value
 		};
 		const response = await getAllProperty(params);
-		setProperty(response);
+		setProperty(response.property);
 	}
 
 	const handlerFilterDate = async(value) => {
@@ -39,7 +39,7 @@ const DasboardWapperContainer = (props) => {
 			createdAt: formatDate
 		};
 		const response = await getAllProperty(params);
-		setProperty(response);
+		setProperty(response.property);
 	}
 
 	const createPropertyHandler = () => {
@@ -51,7 +51,7 @@ const DasboardWapperContainer = (props) => {
 			limit: 10
 		}
 		const response = await getAllProperty(params);
-		setProperty(response);
+		setProperty(response.property);
 	}
 
 	useEffect(() => {
@@ -89,10 +89,10 @@ const DasboardWapperContainer = (props) => {
 				</div>
 			</div>
 			<InfiniteScroll
-				dataLength={propertys && propertys.length}
-				next={onScrollLoadMoreProperty}
-				hasMore={true}
-          		loader={<h4>Loading...</h4>}
+				pageStart={0}
+				loadMore={onScrollLoadMoreProperty}
+				hasMore={true || false}
+				loader={<div className="loader" key={0}>Loading ...</div>}
 			>
 				<div className="list-card">
 					{(propertys && propertys.length > 0) ? (
