@@ -1,26 +1,55 @@
 import React, { Fragment } from 'react';
+import styled from 'styled-components';
 
-const SelectComponent = ({label, value, options}, ref) => {
+export const SelectContainer = styled.select`
+    height: 60px;
+    padding: 15px;
+    border:1px solid #fff;
+    box-shadow: 0 0 1px 2px #fff, 0 0 16px 5px #f1f1f1;
+    border-radius: 6px;
+    transition: all 0.5s ease-in-out;
+
+    &:hover, &:focus, &:active:focus{
+        border: 1px solid #9933ff;
+        outline:none;
+        box-shadow:none;
+    }
+    &.border-red-color, &.border-red-color:hover, &.border-red-color:focus{
+        border-color: #ff0000;
+    }
+
+    option{
+        padding:10px;
+        color: #9933ff;;
+    }
+`;
+
+export const Label = styled.label`
+    font-weight: 600;
+    color: #444;
+`;
+
+const SelectComponent = ({label, value, customClass, selectClass, options, inputKey, onChangeHandler}, ref) => {
     return (
-        <div className="form-group">
+        <div className={`form-group ${customClass && customClass}`}>
             {   label &&
-                    <label>{label}</label>
+                    <Label>{label}</Label>
             }
-            <select
+            <SelectContainer
                 defaultValue={value}
                 ref={ref}
+                className={`form-control ${selectClass && selectClass}`}
+                onChange={() => onChangeHandler(inputKey, ref.current.value)}
             >
-                {   options.length > 0 ?
+                {   options.length > 0 &&
                         <Fragment>
                             {   options.map((items, index) => (
-                                    <option value={items.value} key={items.value}>{items.text}</option>
+                                    <option key={index} value={items.value}>{items.text}</option>
                             ))}
                         </Fragment>
-                    :
-                        <option value="-1">Select the carpet units</option>
                 }
 
-            </select>
+            </SelectContainer>
         </div>
     )
 }

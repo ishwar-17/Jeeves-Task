@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // API Axios Get Call.
-export const getAPICall = (url) => {
-    return axios.get(url);
+export const getAPICall = (url, data={}) => {
+    return axios.get(url, {params: data});
 }
 // API Axios Post Call.
 export const postAPICall = (url, data) => {

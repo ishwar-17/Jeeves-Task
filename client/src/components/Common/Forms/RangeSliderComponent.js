@@ -9,7 +9,6 @@ export const Label = styled.label`
 `;
 
 const RangeSliderComponent = ({label, customClass, value, min, max, inputKey, onChangeHandler}) => {
-    console.log(value);
 	return (
 		<div className={`form-group ${customClass && customClass}`}>
 			{ 	label && <Label>{label}</Label> }

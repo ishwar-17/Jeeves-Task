@@ -14,7 +14,7 @@ class AppRouter extends Component{
                 <Switch>
                     <Route
                         exact
-                        path="/home"
+                        path="/"
                         render={(props) => <DasboardWapperContainer />}
                     />
                     <Route

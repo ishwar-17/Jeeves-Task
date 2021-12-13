@@ -186,6 +186,3 @@ export const SendMessageIcon = (props) => {
     </svg>
   )
 }
-  
-  
-  

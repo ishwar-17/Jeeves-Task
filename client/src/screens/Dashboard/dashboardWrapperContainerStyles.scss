@@ -1,12 +1,39 @@
 .list-card{
     .list-item{
         background-color: #fff;
-        box-shadow: 0 0 1px 2px #fff, 0 0 16px 5px #f1f1f1;
+        box-shadow: 0 0 1px 2px #eee, 0 0 16px 5px #eee;
         border-radius: 6px;
         padding:15px 20px;
         margin-bottom:25px;
+
+        .no-data{
+            font-weight: 500;
+            font-size:15px;
+        }
     }
 }
 .thumbs-wrapper{
     display: none;
+}
+
+.react-datepicker-wrapper{
+    .react-datepicker__input-container{
+        input{
+            height: 45px;
+            padding: 15px 20px;
+            border:1px solid #fff;
+            box-shadow: 0 0 1px 2px #fff, 0 0 16px 5px #f1f1f1;
+            border-radius: 6px;
+            transition: all 0.5s ease-in-out;
+        
+            &:hover, &:focus, &:active:focus{
+                border: 1px solid #9933ff;
+                outline:none;
+                box-shadow:none;
+            }
+            &.border-red-color, &.border-red-color:hover, &.border-red-color:focus{
+                border-color: #ff0000;
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UpperNavigation from './Navigation/upperNavigation';
 import AppRouter from '../components/AppRouter';
+import { ToastProvider } from 'react-toast-notifications';
 
 class App extends Component{
     state = {
@@ -10,11 +11,12 @@ class App extends Component{
     }
     render() {
         return (
-            <div className="app-container">
-                <UpperNavigation brandName="RealState"/>
-                <AppRouter/>
-            </div>
-            
+            <ToastProvider placement="top-center">
+                <div className="app-container">
+                    <UpperNavigation brandName="RealState"/>
+                    <AppRouter/>
+                </div>
+            </ToastProvider>
         )
     }
 }

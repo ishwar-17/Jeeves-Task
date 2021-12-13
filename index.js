@@ -4,30 +4,26 @@ const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
 
-mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || `mongodb+srv://Ishwar:lu7AJgoS79x4royF@cluster0.dq3zw.mongodb.net/JeevesProperty?retryWrites=true&w=majority`);
-
-var corsOptions = {
+const corsOptions = {
     origin: "http://localhost:8081"
 };
 
 const db = require("./server/models");
 db.mongoose
-  .connect(db.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
-    console.log("Connected to the database!");
-  })
-  .catch(err => {
-    console.log("Cannot connect to the database!", err);
-    process.exit();
+	.connect(db.url, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true
+	})
+	.then(() => {
+		console.log("Connected to the database!");
+	})
+	.catch(err => {
+		console.log("Cannot connect to the database!", err);
+		process.exit();
 });
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
-  
     const path = require('path');
     app.get('*', (req,res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
@@ -36,7 +32,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(cors(corsOptions));
-
 app.use(bodyParser.json());
 
 require("./server/routes/PropertyRoutes/property.routes")(app);

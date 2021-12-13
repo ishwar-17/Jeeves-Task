@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Input from '../../components/Common/Forms/Input';
 import Textarea from '../../components/Common/Forms/Textarea';
+import Select from '../../components/Common/Forms/Select';
 import RangeSliderComponent from '../../components/Common/Forms/RangeSliderComponent';
 import ImageUploadPreview from '../../components/ImageUploadPreview/ImageUploadPreviewComponent';
 import { createProperty } from '../../DataLayer/dataLayerUtilities';
+import { useHistory } from 'react-router-dom';
+import { useToasts } from 'react-toast-notifications';
 
 import './createWrapperContainerStyles.scss';
 
@@ -29,14 +32,18 @@ const CreateWapperContainer = (props) => {
 
     const [{propertyName, description, address, locality, price, carpetArea, images}, SetProperty] = useState(initialPropertyState);
 	const [{errorPropertyName, errorDescription, errorAddress, errorLocality, errorPrice, errorCarpetArea}, SetErrorMessage] = useState(initialErrorMessageState);
+	const [convertCarpetArea, setCarpetArea]= useState('');
+	const [unit, setUnit] = useState("");
+	const history = useHistory();
+	const { addToast } = useToasts();
 
     const property_name_ref = useRef(null);
     const description_ref = useRef(null);
     const address_ref = useRef(null);
     const locality_ref = useRef(null);
-    const price_ref = useRef(null);
     const carpet_area_ref =  useRef(null);
 	const images_ref = useRef(null);
+	const unit_ref = useRef(null);
 
 	const onChangeHandler = (key, value, errorKey) => {
 		console.log(value);
@@ -53,21 +60,43 @@ const CreateWapperContainer = (props) => {
 		if(!isValid){
 			return;
 		}
-		const formData = {propertyName, description, images, address,locality, price, carpetArea};
-		const response = await createProperty(formData);
-		SetProperty(initialPropertyState);
+		const formData = {propertyName, description, images, address,locality, price, carpetArea: `${convertCarpetArea} ${unit}`};
+		const { error } = await createProperty(formData);
+		if(error){
+			addToast(error.message, { appearance: 'error', autoDismiss: true });
+			return;
+		}
+		addToast("New property created successfully", { appearance: 'success', autoDismiss: true });
+		history.push('/');
+		SetProperty(initialPropertyState);	
 	}
 
 	const validationChecker = () => {
 		let valid = true;
-		if(!property_name_ref.current.value || !description_ref.current.value || !address_ref.current.value || !locality_ref.current.value || !price_ref.current.value || !carpet_area_ref.current.value){
+		if(!propertyName && !description && !address && !locality && !carpetArea){
 			valid = false;
 			for(const [key] of Object.entries(initialErrorMessageState)){
 				SetErrorMessage(prevState => ({ ...prevState, [key] : true}));
 			}
-			return;
+			return valid;
 		}
 		return valid;
+	}
+
+	const calculateCarpetArea = (value, unit="ft") => {
+		let getSquareFeet = null;
+		switch(unit){
+			case "ft":
+				getSquareFeet = value * value;
+				break;
+			case "yd":
+				getSquareFeet = (value * value)/9;
+				break;
+			default :
+				getSquareFeet = null;
+		}
+		setCarpetArea(getSquareFeet);
+		setUnit(`sq ${unit}`);
 	}
 
 	useEffect(() => {
@@ -135,20 +164,6 @@ const CreateWapperContainer = (props) => {
 						errorKey="errorLocality"
 						errorMessage="Please enter a locality/area"
 					/>
-					{/* <Input
-						label="Price"
-						customClass="mb-4"
-						value={price}
-						type="number"
-						name="price"
-						placeholder="Enter property amount..."
-						inputKey="price"
-						ref={price_ref}
-						onChangeHandler={onChangeHandler}
-						isError={errorPrice}
-						errorKey="errorPrice"
-						errorMessage="Please enter a price"
-					/> */}
 					<RangeSliderComponent
 						label="Price"
 						customClass="mb-4"
@@ -158,20 +173,36 @@ const CreateWapperContainer = (props) => {
 						inputKey="price"
 						onChangeHandler={onChangeHandler}
 					/>
-					<Input 
-						label="Carept Area"
-						customClass="mb-4"
-						value={carpetArea}
-						type="text"
-						name="carpetarea"
-						placeholder="Enter carpet area..."
-						inputKey="carpetArea"
-						ref={carpet_area_ref}
-						onChangeHandler={onChangeHandler}
-						isError={errorCarpetArea}
-						errorKey="errorCarpetArea"
-						errorMessage="Please enter a carpet area"
-					/>
+					<div className="row">
+						<div className="col">
+							<Input 
+								label="Carept Area"
+								customClass="m-0"
+								value={carpetArea}
+								type="text"
+								name="carpetarea"
+								placeholder="Enter carpet area..."
+								inputKey="carpetArea"
+								ref={carpet_area_ref}
+								isError={errorCarpetArea}
+								errorKey="errorCarpetArea"
+								errorMessage="Please enter a carpet area"
+								onChangeHandler={onChangeHandler}
+							/>
+						</div>
+						<div className="col-auto">
+							<Select
+								label="Unit"
+								customClass="mb-2"
+								value={unit}
+								ref={unit_ref}
+								options={[{text: 'Select unit', value: ''},{text: 'Square feet', value: 'ft'}, {text: 'Square yard',  value: 'yd'}]}
+								inputKey={carpetArea}
+								onChangeHandler={calculateCarpetArea}
+							/>
+						</div>
+					</div>
+					<p className="mb-3">{convertCarpetArea && `Calculated carpet area is : ${Math.round(convertCarpetArea)} ${unit}`}</p>
 					<ImageUploadPreview 
 						label="Property images"
 						customClass=""
