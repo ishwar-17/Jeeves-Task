@@ -1,0 +1,58 @@
+@import './screenVariables.scss';
+
+// Small devices
+@mixin sm($screen) {
+    @media (min-width: #{$screen}) {
+        @content;
+    }
+}
+ 
+// Medium devices
+@mixin md($screen) {
+    @media (min-width: #{$screen}) {
+        @content;
+    }
+}
+ 
+// Large devices
+@mixin lg($screen) {
+    @media (min-width: #{$screen}) {
+        @content;
+    }
+}
+ 
+// Extra large devices
+@mixin xl($screen) {
+    @media (min-width: #{$screen}) {
+        @content;
+    }
+}
+
+// Custom devices
+@mixin rwd($screen) {
+    @media (min-width: #{$screen}) {
+        @content;
+    }
+}
+@mixin screen-container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    @include sm($screen-sm-min) {
+        max-width: 540px; 
+    }
+    @include md($screen-md-min) {
+        max-width: 720px; 
+    }
+    @include lg($screen-lg-min) {
+        max-width: 960px; 
+    }
+    @include xl($screen-xl-min) {
+        max-width: 1000px; 
+    }
+    @include rwd(1400){
+        max-width: 1040px;
+    }
+}
