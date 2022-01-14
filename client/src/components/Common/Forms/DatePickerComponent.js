@@ -12,6 +12,7 @@ const DatePickerRef = ({selectedDate, name, dateFormat, onChangeHandler}, ref) =
             selected={selectedDate}
             onChange={handlerDatePicker}
             name={name}
+            placeholderText="DD/MM/YYY"
             dateFormat={dateFormat}
             ref={ref}
         />

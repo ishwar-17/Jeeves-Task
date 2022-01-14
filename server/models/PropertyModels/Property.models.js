@@ -11,14 +11,9 @@ module.exports = mongoose => {
             price:[],
             carpetArea: String
         },
-        { timestamps: true }
     );
   
-    propertySchema.method("toJSON", function() {
-        const { __v, _id, ...object } = this.toObject();
-        object.id = _id;
-        return object;
-    }); 
+    propertySchema.set('timestamps', true)
   
     const Property = mongoose.model("property", propertySchema);
     return Property;

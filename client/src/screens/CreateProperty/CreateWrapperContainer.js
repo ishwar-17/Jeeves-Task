@@ -12,7 +12,7 @@ import './createWrapperContainerStyles.scss';
 
 const CreateWapperContainer = (props) => {
 	const initialPropertyState = {
-        propertyName:{},
+        propertyName:"",
         description: "",
         address: "",
         locality: "",

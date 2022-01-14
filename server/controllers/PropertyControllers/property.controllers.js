@@ -57,21 +57,23 @@ exports.findAll = (req, res) => {
     }
     const pageOptions = {
         page: parseInt(req.query.page, 10) || 0,
-        limit: parseInt(req.query.limit, 10) || 10
+        limit: parseInt(req.query.limit, 10) || 2
     }
     let condition = '';
     if(locality){
         condition = locality ? { locality: { $regex: new RegExp(locality), $options: "i" } } : {};
     }else{
-        condition = createdAt ? { createdAt: { 
-            $exists: true,
-            $lte: moment(createdAt)._i, 
-        }} : {};
+        let _startDate = new Date(createdAt)
+        _startDate.setHours(0,0,0,0);
+        let _endDtate = new Date(createdAt);
+        _endDtate.setHours(23,59,59,0);
+        console.log(createdAt && moment(createdAt));
+        condition = createdAt ? { $and:[{createdAt:{$gte:_startDate}},{createdAt:{$lte:_endDtate}}]} : {};
     }
     Property.find(condition)
         .sort({ propertyName: 'asc' })
-        .limit(pageOptions.limit)
         .skip(pageOptions.page * pageOptions.limit)
+        .limit(pageOptions.limit)
         .then(data => {
             res.send({
                 property:data,

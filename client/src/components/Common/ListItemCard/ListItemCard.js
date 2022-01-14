@@ -12,7 +12,7 @@ const ListItemCard = (props) => {
                 <p className="product_description">{description}</p>
                 <p className="product_price">Price : <span>{price && `${price[0]}L to ${price[1]}L`}</span></p>
                 <p className="product_carpetarea">Carpert area : <span>{carpetArea}</span></p>
-                <p className="product_address">Address : <span>{address}</span><span>{locality}</span></p>
+                <p className="product_address">Address : <span>{address},</span> <span>{locality}</span></p>
                 <p className="product_createdate">Created : <span>{moment(createdAt).format('DD/MM/YYYY')}</span></p>
             </div>
             <div className="col-md-3 col-lg-3 col-sm-3 list-item-images">

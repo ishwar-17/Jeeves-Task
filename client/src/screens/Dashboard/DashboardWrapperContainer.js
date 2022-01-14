@@ -8,17 +8,20 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import moment from 'moment';
 import './dashboardWrapperContainerStyles.scss';
 import DatePickerComponent from '../../components/Common/Forms/DatePickerComponent';
+import Loader from '../../components/Common/Loader/Loader';
 
 const DasboardWapperContainer = (props) => {
     const [propertys, setProperty] = useState(null);
+	const [loader, setLoader] = useState(true);
 	const [filterLocality, setFilterLocality] = useState('');
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [selectedDate, setSelectedDate] = useState('');
 	const [pageCount, setPageCount] = useState(1);
 	const history = useHistory();
 
 	const getProperty = async () => {
 		let response = await getAllProperty();
 		setProperty(response.property);
+		setLoader(false);
 	}
 	const filter_locality_ref = useRef(null);
 	const selected_date_ref = useRef(null);
@@ -34,6 +37,7 @@ const DasboardWapperContainer = (props) => {
 
 	const handlerFilterDate = async(value) => {
 		console.log(value);
+		console.log(moment(value));
 		const formatDate = moment(value).format('DD/MM/YYYY');
 		setSelectedDate(value);
 		const params = {
@@ -91,25 +95,26 @@ const DasboardWapperContainer = (props) => {
 					<button className="btn btn-create btn-create-dashboard" onClick={() => createPropertyHandler()}>Create property</button>
 				</div>
 			</div>
-			<InfiniteScroll
-				dataLength={propertys && propertys.length} //This is important field to render the next data
-				next={onScrollLoadMoreProperty}
-				hasMore={true}
-				loader={<h4>Loading...</h4>}
-			>
-				<div className="list-card">
-					{(propertys && propertys.length > 0) ? (
-						propertys.map(property => 
-							<div className="col-md-12 col-lg-12 col-sm-12 list-item" key={property.id}>
-								<ListItemCard listItem={property} />
-							</div>)
-					) : (
-						<div className="col-md-12 col-lg-12 col-sm-12 p-5 list-item text-center">
-							<p className="m=0 no-data">No propertys found</p>
+			<div className="list-card">
+				{	loader ?
+						<div className="d-flex justify-center">
+							<Loader />
 						</div>
-					)}
-				</div>
-			</InfiniteScroll>
+					:
+						<React.Fragment>
+							{(propertys && propertys.length > 0) ? (
+								propertys.map(property => 
+									<div className="col-md-12 col-lg-12 col-sm-12 list-item" key={property._id}>
+										<ListItemCard listItem={property} />
+									</div>)
+							) : (
+								<div className="col-md-12 col-lg-12 col-sm-12 p-5 list-item text-center">
+									<p className="m=0 no-data">No propertys found</p>
+								</div>
+							)}
+						</React.Fragment>
+				}
+			</div>
         </div>
     )
 }
