@@ -22,11 +22,11 @@ class UpperNavigation extends Component{
             <div className="upperNavigation">
                 <div className="screen-container">
                     <Navbar expand="lg" className="navbar-section">
-                        <Navbar.Brand as={Link} to="/">{this.props.brandName}</Navbar.Brand>
+                        <Navbar.Brand as={Link} to="/"><AiFillHome/> {this.props.brandName}</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mx-auto upper-navbar-link">
-                                <Nav.Item className="navabr-item"><NavLink className="navbar-link mr-lg-14 ml-lg-14" to="/" exact activeClassName="active"><AiFillHome/></NavLink></Nav.Item>
+                                <Nav.Item className="navabr-item"><NavLink className="navbar-link mr-lg-14 ml-lg-14 nav-link-class" to="/" exact activeClassName="active">All property</NavLink></Nav.Item>
                             </Nav>
                             <Nav className=" upper-navbar-link">
                                 <NavDropdown className="navbar-dropdown-item" title={<UserImage styleObject={UserImageXs} urlPath={userPathImage} userName={this.state.userName}/>} id="basic-nav-dropdown">

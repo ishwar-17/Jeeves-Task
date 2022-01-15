@@ -59,7 +59,7 @@ const CreateWapperContainer = (props) => {
 		if(!isValid){
 			return;
 		}
-		const formData = {propertyName, description, images, address,locality, price, carpetArea: `${convertCarpetArea} ${unit}`};
+		const formData = {propertyName, description, images, address,locality, price, carpetArea: `${Math.round(convertCarpetArea)} ${unit}`};
 		const { error } = await createProperty(formData);
 		if(error){
 			addToast(error.message, { appearance: 'error', autoDismiss: true });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
-const DatePickerRef = ({selectedDate, name, dateFormat, onChangeHandler}, ref) => {
+const DatePickerRef = ({selectedDate, name, dateFormat, placeholderText, onChangeHandler}, ref) => {
 
     const handlerDatePicker = (date) => {
         onChangeHandler(date);
@@ -12,7 +12,7 @@ const DatePickerRef = ({selectedDate, name, dateFormat, onChangeHandler}, ref) =
             selected={selectedDate}
             onChange={handlerDatePicker}
             name={name}
-            placeholderText="DD/MM/YYY"
+            placeholderText={placeholderText}
             dateFormat={dateFormat}
             ref={ref}
         />

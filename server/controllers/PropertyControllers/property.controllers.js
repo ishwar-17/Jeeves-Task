@@ -1,7 +1,5 @@
 const db = require("../../models");
 const Property = db.property;
-const moment = require('moment');
-
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
     // Validate request
@@ -37,11 +35,27 @@ exports.create = (req, res) => {
         });
 };
 
+// Query condition get the property details based req.query.
+const queryCondition = (queryData) => {
+    const { locality, createdAt }  = queryData;        
+    let _startDate = new Date(createdAt);
+    _startDate.setHours(0,0,0,0);
+    let _endDtate = new Date(createdAt);
+    _endDtate.setHours(23,59,59,0);
+    if(!locality && !createdAt){
+        return {};
+    }
+    if(locality && createdAt){
+        return { $and:[{'locality': locality ? { $regex: new RegExp(locality), $options: "i" } : ""}, {'createdAt': createdAt ? {$gte:_startDate, $lte:_endDtate} : ''}]};
+    }
+    return { $or:[{'locality': locality ? { $regex: new RegExp(locality), $options: "i" } : ""}, {'createdAt': createdAt ? {$gte:_startDate, $lte:_endDtate} : ''}]};
+}
+
+
 // Retrieve all property from the database.
 exports.findAll = (req, res) => {
-    const locality = req.query.locality;
-    const createdAt = req.query.createdAt;
     const id = req.query.id;
+    let condition = queryCondition(req.query);
     if(id){
         Property.findById(id)
             .then(data => {
@@ -55,25 +69,8 @@ exports.findAll = (req, res) => {
             });
         return;
     }
-    const pageOptions = {
-        page: parseInt(req.query.page, 10) || 0,
-        limit: parseInt(req.query.limit, 10) || 2
-    }
-    let condition = '';
-    if(locality){
-        condition = locality ? { locality: { $regex: new RegExp(locality), $options: "i" } } : {};
-    }else{
-        let _startDate = new Date(createdAt)
-        _startDate.setHours(0,0,0,0);
-        let _endDtate = new Date(createdAt);
-        _endDtate.setHours(23,59,59,0);
-        console.log(createdAt && moment(createdAt));
-        condition = createdAt ? { $and:[{createdAt:{$gte:_startDate}},{createdAt:{$lte:_endDtate}}]} : {};
-    }
     Property.find(condition)
-        .sort({ propertyName: 'asc' })
-        .skip(pageOptions.page * pageOptions.limit)
-        .limit(pageOptions.limit)
+        .sort({ createdAt: 'asc' })
         .then(data => {
             res.send({
                 property:data,

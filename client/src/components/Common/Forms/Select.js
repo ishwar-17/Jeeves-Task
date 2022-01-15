@@ -7,6 +7,8 @@ export const SelectContainer = styled.select`
     border:1px solid #fff;
     box-shadow: 0 0 1px 2px #fff, 0 0 16px 5px #f1f1f1;
     border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
     transition: all 0.5s ease-in-out;
 
     &:hover, &:focus, &:active:focus{
